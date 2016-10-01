@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import logging
+import traceback
+
 __all__ = ['dict_del_vals', 'get_by_path', 'make_getter',
            'dict2dotnotation']
 
