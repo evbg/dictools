@@ -3,8 +3,7 @@
 import logging
 import traceback
 
-__all__ = ['dict_del_vals', 'get_by_path', 'make_getter',
-           'dict2dotnotation']
+__all__ = ['dict_del_vals', 'get_by_path', 'make_getter', 'dict2dotnotation']
 
 
 def dict_del_vals(dictin, vals=[None], stop_recursion=False):
@@ -49,6 +48,7 @@ def make_getter(d, root=None, default=None):
                     alt2 = root + "." + alt2
                 ret = get_by_path(d, alt2, default)
         return ret
+
     return func
 
 
@@ -71,6 +71,7 @@ def dict2dotnotation(ddict, path=[], rdict={}, rec=False):
                 ret += "."
             ret += k
         return ret
+
     for key in dd:
         if type(dd[key]) is not dict:
             rd[listtostr(path, key)] = dd[key]
