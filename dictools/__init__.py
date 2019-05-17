@@ -15,22 +15,22 @@ def dict_del_vals(dictin, vals=[None], stop_recursion=False):
     return dictin
 
 
-def get_by_path(d, keys, default=None):
+def get_by_path(d, path, default=None):
     assert type(d) is dict
-    if "." in keys:
-        key, rest = keys.split(".", 1)
+    if "." in path:
+        key, rest = path.split(".", 1)
         if str(key).isdigit():
             key = int(key)
         return get_by_path(d.get(key, {}), rest, default)
     else:
-        return d.get(keys, default)
+        return d.get(path, default)
 
 
 def make_getter(d, root=None, default=None):
-    def func(keys, default=default, alt=None, alt2=None):
-        if type(root) is str and type(keys) is str:
-            keys = root + "." + keys
-        ret = get_by_path(d, keys, default)
+    def func(path, default=default, alt=None, alt2=None):
+        if type(root) is str and type(path) is str:
+            path = root + "." + path
+        ret = get_by_path(d, path, default)
         if ret is None:
             if type(root) is str and type(alt) is str:
                 alt = root + "." + alt
