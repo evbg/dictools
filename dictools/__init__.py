@@ -4,7 +4,7 @@ __all__ = ['dict_del_vals', 'get_by_path', 'make_getter', 'dict2dotnotation']
 
 
 def dict_del_vals(dictin, vals=[None], stop_recursion=False):
-    for key in dictin.keys():
+    for key in [k for k in dictin]:
         if dictin.get(key) in vals:
             del dictin[key]
         elif type(dictin[key]) is dict:
