@@ -23,10 +23,7 @@ def get_by_path(d, keys, default=None):
         if "." in keys:
             key, rest = keys.split(".", 1)
             if str(key).isdigit():
-                try:
-                    key = int(key)
-                except:
-                    logging.error(traceback.format_exc())
+                key = int(key)
             return get_by_path(d.get(key, {}), rest, default)
         else:
             return d.get(keys, default)
