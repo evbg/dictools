@@ -16,16 +16,14 @@ def dict_del_vals(dictin, vals=[None], stop_recursion=False):
 
 
 def get_by_path(d, keys, default=None):
-    try:
-        if "." in keys:
-            key, rest = keys.split(".", 1)
-            if str(key).isdigit():
-                key = int(key)
-            return get_by_path(d.get(key, {}), rest, default)
-        else:
-            return d.get(keys, default)
-    except:
-        return default
+    assert type(d) is dict
+    if "." in keys:
+        key, rest = keys.split(".", 1)
+        if str(key).isdigit():
+            key = int(key)
+        return get_by_path(d.get(key, {}), rest, default)
+    else:
+        return d.get(keys, default)
 
 
 def make_getter(d, root=None, default=None):
