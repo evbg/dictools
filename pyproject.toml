@@ -1,5 +1,5 @@
 [settings]
-known_third_party = ["setuptools"]
+known_third_party = ["setuptools", "six"]
 
 [tool.black]
 safe = true
