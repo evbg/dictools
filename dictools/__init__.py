@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import logging
-import traceback
-
-__all__ = ['dict_del_vals', 'get_by_path', 'make_getter',
-           'dict2dotnotation']
+__all__ = ['dict_del_vals', 'get_by_path', 'make_getter', 'dict2dotnotation']
 
 
 def dict_del_vals(dictin, vals=[None], stop_recursion=False):
-    for key in dictin.keys():
+    for key in [k for k in dictin]:
         if dictin.get(key) in vals:
             del dictin[key]
         elif type(dictin[key]) is dict:
@@ -19,27 +15,24 @@ def dict_del_vals(dictin, vals=[None], stop_recursion=False):
     return dictin
 
 
-def get_by_path(d, keys, default=None):
-    try:
-        if "." in keys:
-            key, rest = keys.split(".", 1)
-            if str(key).isdigit():
-                try:
-                    key = int(key)
-                except:
-                    logging.error(traceback.format_exc())
-            return get_by_path(d.get(key, {}), rest, default)
-        else:
-            return d.get(keys, default)
-    except:
+def get_by_path(d, path, default=None):
+    assert type(d) is dict
+    if path is None:
         return default
+    if "." in path:
+        key, rest = path.split(".", 1)
+        if str(key).isdigit():
+            key = int(key)
+        return get_by_path(d.get(key, {}), rest, default)
+    else:
+        return d.get(path, default)
 
 
 def make_getter(d, root=None, default=None):
-    def func(keys, default=default, alt=None, alt2=None):
-        if type(root) is str and type(keys) is str:
-            keys = root + "." + keys
-        ret = get_by_path(d, keys, default)
+    def func(path, default=default, alt=None, alt2=None):
+        if type(root) is str and type(path) is str:
+            path = root + "." + path
+        ret = get_by_path(d, path, default)
         if ret is None:
             if type(root) is str and type(alt) is str:
                 alt = root + "." + alt
@@ -49,6 +42,7 @@ def make_getter(d, root=None, default=None):
                     alt2 = root + "." + alt2
                 ret = get_by_path(d, alt2, default)
         return ret
+
     return func
 
 
@@ -71,6 +65,7 @@ def dict2dotnotation(ddict, path=[], rdict={}, rec=False):
                 ret += "."
             ret += k
         return ret
+
     for key in dd:
         if type(dd[key]) is not dict:
             rd[listtostr(path, key)] = dd[key]

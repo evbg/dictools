@@ -1,0 +1,5 @@
+.tox/
+dictools.egg-info/
+pip-wheel-metadata/
+build/
+dist/
