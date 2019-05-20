@@ -17,6 +17,8 @@ def dict_del_vals(dictin, vals=[None], stop_recursion=False):
 
 def get_by_path(d, path, default=None):
     assert type(d) is dict
+    if path is None:
+        return default
     if "." in path:
         key, rest = path.split(".", 1)
         if str(key).isdigit():
